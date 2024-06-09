@@ -12,6 +12,8 @@ For example, if your horizon is
 at 20 degrees everywhere, except for a pesky mountain in the south that blocks the sky up to 45
 degrees (and is 40 degrees wide at the base, you would use a CSV file like this:
 
+`
 160,20
 180,45
 200,20
+`
