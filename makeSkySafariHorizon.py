@@ -79,10 +79,12 @@ y_wrap = Alt1 + portion*diff2
 print("diff2 is", diff2)
 print("y_wrap is", y_wrap)
 
+# Convert from degrees to pixel measurements
 x1 = AzToX(Az1)
 y1 = AltToY(Alt1)
 x2 = AzToX(Az2)
 y2 = AltToY(Alt2)
+y_wrap = AltToY(y_wrap)
 
 draw.polygon([(x1,y1), (4095,y_wrap), (4095,BOT), (x1,BOT)], fill=COLOR, outline=COLOR, width=1)
 draw.polygon([(x2,y2), (   0,y_wrap), (   0,BOT), (x2,BOT)], fill=COLOR, outline=COLOR, width=1)
