@@ -69,14 +69,17 @@ Alt1 = horizon[-1][1]
 Az2 = horizon[0][0]
 Alt2 = horizon[0][1]
 
-diff = Az2+360 - Az1
-portion = (360 - Az1)/diff
+x_diff = Az2+360 - Az1
+if x_diff == 0:
+    portion = 1
+else:
+    portion = (360 - Az1)/x_diff
 print("portion is", portion)
 
-diff2 = Alt2 - Alt1
+y_diff = Alt2 - Alt1
 #y_wrap = Alt1 + portion*(Alt2 - Alt1)
-y_wrap = Alt1 + portion*diff2
-print("diff2 is", diff2)
+y_wrap = Alt1 + portion*y_diff
+print("y_diff is", y_diff)
 print("y_wrap is", y_wrap)
 
 # Convert from degrees to pixel measurements
