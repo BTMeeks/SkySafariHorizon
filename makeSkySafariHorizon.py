@@ -1,4 +1,3 @@
-
 import csv
 import sys
 from PIL import Image,ImageDraw
@@ -21,13 +20,11 @@ def AltToY(alt):
     return int(2048-(alt*1024/90+1024))
 
 def drawPoly(i):
-    print( i, horizon[i][0],horizon[i][1],horizon[i+1][0],horizon[i+1][1])
     x1 = AzToX(horizon[i][0])
     y1 = AltToY(horizon[i][1])
     x2 = AzToX(horizon[i+1][0])
     y2 = AltToY(horizon[i+1][1])
 
-    # draw.polygon([(horizon[i][0],horizon[i][1]),(horizon[i+1][0],horizon[i+1][1]),(horizon[i+1][0],BOT),(horizon[i][0],BOT)], fill=COLOR, outline=(50,50,255), width=10)
     draw.polygon([(x1,y1),(x2,y2),(x2,BOT),(x1,BOT)], fill=COLOR, outline=COLOR, width=1)
 
 # Main program
@@ -36,27 +33,17 @@ def drawPoly(i):
 with open('horizon.csv') as csvfile:
     horizon_reader = csv.reader(csvfile)
     for row in horizon_reader:
-        #print(row)
         row[0] = float(row[0])
         row[1] = float(row[1])
         horizon.append(row)
 
 horizon.sort(key = sort_key)
-#print(horizon)
-
-# Graphics stuff
-#img = image.open('image.png')
-#rbga = img.convert('RGBA')
 
 img = Image.new(mode='RGBA', size=(4096,2048), color=(0,0,0,0))
-
 draw = ImageDraw.Draw(img)
-# draw.polygon([(546,443),(887,321),(887,2047),(546,2047)], fill=COLOR, outline=COLOR, width=1)
-drawPoly(0)
 
 k = 0
 for row in horizon[:-1]:
-    #print(k, row[0])
     drawPoly(k)
     k = k + 1
 
@@ -74,13 +61,9 @@ if x_diff == 0:
     portion = 1
 else:
     portion = (360 - Az1)/x_diff
-print("portion is", portion)
 
 y_diff = Alt2 - Alt1
-#y_wrap = Alt1 + portion*(Alt2 - Alt1)
 y_wrap = Alt1 + portion*y_diff
-print("y_diff is", y_diff)
-print("y_wrap is", y_wrap)
 
 # Convert from degrees to pixel measurements
 x1 = AzToX(Az1)
