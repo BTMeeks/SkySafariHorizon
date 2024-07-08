@@ -1,19 +1,41 @@
 #!/usr/bin/env python3
 import csv
 import sys
+import argparse
 from PIL import Image,ImageDraw
 
+parser = argparse.ArgumentParser("Create a custom panorama for SkySafari, based on the users specifications of the horizon in the input CSV file")
+parser.add_argument('-i', '--input', type=str, help="The filename of the input CSV file")
+parser.add_argument('-o', '--output', type=str, help="The filename of the output PNG file")
+parser.add_argument('-m', '--mobile',           help="The output file will be sized for Mobile devices, like iPad or iPhone", action = "store_true")
+args = parser.parse_args()
+print(args)
+
 # Constants
-#    macOS size is 4096 x 2048
-# WIDTH = 4096
-# HEIGHT = 2048
-#    iOS size is 2048 x 1024
-WIDTH = 2048
-HEIGHT = 1024
 COLOR = (50, 200, 50, 200)
+DEFAULT_INPUT_FILE = 'horizon.csv'
+DEFAULT_OUTPUT_FILE = 'image.png'
+
+if args.mobile:
+    WIDTH = 2048
+    HEIGHT = 1024
+else:
+    WIDTH = 4096
+    HEIGHT = 2048
+
+if args.input == None:
+    args.input = DEFAULT_INPUT_FILE
+
+if args.output == None:
+    args.output = DEFAULT_OUTPUT_FILE
+
+print(args)
+print( WIDTH, HEIGHT, args.input, args.output)
 
 horizon = []
 BOT = HEIGHT - 1
+
+# Functions
 
 def sort_key(row):
     return row[0]
@@ -24,9 +46,7 @@ def AzToX(az):
 # Note: Sky Safari supports horizons below 0 in its horizon panorama support, I believe.
 # However, this program expects the altitude to be between 0 and 90.
 def AltToY(alt):
-    #    return int(2048-(alt*1024/90+1024))
     HALF = HEIGHT/2
-    # return int(WIDTH-(alt*1024/90+1024))
     return int(HEIGHT-(alt*HALF/90+HALF))
 
 def drawPoly(i):
@@ -42,7 +62,7 @@ def drawPoly(i):
 
 # Read the CSV file that describes the horizon
 
-with open('horizon.csv') as csvfile:
+with open(args.input) as csvfile:
     horizon_reader = csv.reader(csvfile)
     for row in horizon_reader:
         row[0] = float(row[0])
@@ -89,4 +109,5 @@ y_wrap = AltToY(y_wrap)
 draw.polygon([(x1,y1), ((WIDTH-1),y_wrap), ((WIDTH-1),BOT), (x1,BOT)], fill=COLOR, outline=COLOR, width=1)
 draw.polygon([(x2,y2), (   0,y_wrap), (   0,BOT), (x2,BOT)], fill=COLOR, outline=COLOR, width=1)
 
-img.save('image.png', 'PNG')
+#img.save('image.png', 'PNG')
+img.save(args.output, 'PNG')
