@@ -19,3 +19,16 @@ degrees (and is 40 degrees wide at the base, you would use a CSV file like this:
 180,45
 200,20
 ```
+
+There is a -m or --mobile option for the program; if on a device like an iPad or iPhone,
+the resulting file should be 2048x1024 pixels. Without the -m option, the program will produce
+a 4096x2048 file suitable for a computer. The file is a PNG file.
+
+On my Mac, the file is at ./Library/Containers/com.simulationcurriculum.SkySafari6MacPro/Data/Library/Application Support/SkySafari 6 Pro/. 
+Your mileage may vary.
+
+On iOS, the file is in "On My iPhone", then "SkySafari Plus", "SkySafari Pro" etc.
+
+Once the file is in the right place, go to SkySafari settings, the "Horizon & Sky". Select 
+"as Panoramic Image" or "as Realistic Image", and your file name should be one of the
+choices, without the .png part.
